@@ -1,0 +1,20 @@
+<!-- Allow the same view as the individualPost page -->
+{% extends 'individualPost.html' %}
+
+{% block comment %}
+<!-- Allow users to post comments -->
+<center>	<form method="POST" class="post-form">
+		{% csrf_token %}
+    <br>
+		<p><i>Comment (required)</i></p>
+		{{ form.comment_text }}
+		<p><i>Name (not required)</i></p>
+		{{ form.comment_auth }}
+    <br>
+		<br>
+		<p><i>Comments will not be visable on the page once posted.</i><p>
+		<br>
+		<br>
+    <button class="w3-button w3-black" type="submit">SUBMIT</button>
+	</form></center>
+{% endblock %}

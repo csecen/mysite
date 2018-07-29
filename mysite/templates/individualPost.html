@@ -1,0 +1,74 @@
+<!-- Allow for same view as all the other pages -->
+{% extends 'base.html' %}
+
+<!-- Start of the new content section of the page -->
+{% block content %}
+  <!-- Set font for header tags used -->
+  <style>
+    h1 {
+        font-family: 'Kurale', serif;
+    }
+    h3 {
+        font-family: 'Kurale', serif;
+    }
+  </style>
+
+  <!-- Post Container displaying all information about a specific post -->
+  <div class="w3-container" id="post">
+    <div class="w3-content" style="max-width:75%">
+      <h1 class="w3-center w3-padding-64">{{ post.title }}</h1>
+      {% if post.cover_image %}
+        <center><img src="{{ post.cover_image.url }}" width="240"></center>
+        <br>
+        <br>
+      {% endif %}
+      <center><p>{{ post.text|linebreaks }}</p></center>
+      <br>
+      <div class="w3-row">
+        <div class="w3-col s3 w3-center">
+          <p>Author: {{ post.auth }}</p>
+        </div>
+        <div class="w3-col s3 w3-center">
+          <p>Posted: {{ post.time }}</p>
+        </div>
+        <div class="w3-col s3 w3-center">
+          <p>Read time: {{ post.read_time }}</p>
+        </div>
+        <div class="w3-col s3 w3-center">
+          <a href="{% url 'addCommentPage' post.id %}"><p>Leave a Comment</p></a>
+        </div>
+      </div>
+
+      <!-- If the user is an admin for the site allow them to read comments posted
+      if no comments are posted, tell the admin -->
+      {% if user.is_authenticated %}
+        {% for comment in comments %}
+        <div class="w3-panel w3-leftbar w3-light-grey">
+          <p><i>{{ comment.comment_text }}</i></p>
+          {% if comment.comment_auth != '' %}
+            <p><i>--{{ comment.comment_auth }}</i></p>
+          {% endif %}
+          <br>
+          <p><i>{{ comment.comment_time }}</i></p>
+        </div>
+        {% empty %}
+          <br>
+          <br>
+          <br>
+          <center><h3>No comments have been made on this post.</h3></center>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Allow for the comment page to extend this page, so the text field is
+      not always visable -->
+      {% block comment %}
+      {% endblock %}
+
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+{% endblock %}
