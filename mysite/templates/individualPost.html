@@ -22,7 +22,7 @@
         <br>
         <br>
       {% endif %}
-      <center><p>{{ post.text|linebreaks }}</p></center>
+      <center><p>{{ post.text|linebreaks|safe }}</p></center>
       <br>
       <div class="w3-row">
         <div class="w3-col s3 w3-center">
