@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm, CommentAuthForm
 
 # Display the homepage of the site. This is where users will be directed when they
 # first visit the site
@@ -23,7 +23,14 @@ def showIndividualPost(request, id):
     post = Post.objects.get(id=id)
     comments = Comment.objects.filter(related_post=id)
 
-    return render(request, 'individualPost.html', {'post':post, 'comments':comments})
+    form = CommentAuthForm(request.POST or None)
+
+    if form.is_valid():
+        #comment = form.instance
+        form.save()
+        return redirect('showIndividualPost', id)
+
+    return render(request, 'individualPost.html', {'post':post, 'comments':comments, 'form':form})
 
 # Display the contact page. This function just renders the html file holding the
 # contact information
@@ -42,6 +49,7 @@ def addCommentPage(request, id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.related_post = post
+            comment.comment_authorized = False
             comment.save()
             return redirect('showIndividualPost', id)
     else:

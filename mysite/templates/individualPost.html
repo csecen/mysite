@@ -41,23 +41,31 @@
 
       <!-- If the user is an admin for the site allow them to read comments posted
       if no comments are posted, tell the admin -->
-      {% if user.is_authenticated %}
-        {% for comment in comments %}
-        <div class="w3-panel w3-leftbar w3-light-grey">
-          <p><i>{{ comment.comment_text }}</i></p>
-          {% if comment.comment_auth != '' %}
-            <p><i>--{{ comment.comment_auth }}</i></p>
+      {% for comment in comments %}
+        {% if user.is_authenticated or comment.comment_authorized %}
+          <div class="w3-panel w3-leftbar w3-light-grey">
+              <p><i>{{ comment.comment_text }}</i></p>
+              {% if comment.comment_auth != '' %}
+                <p><i>--{{ comment.comment_auth }}</i></p>
+              {% endif %}
+              <br>
+              <p><i>{{ comment.comment_time }}</i></p>
+          </div>
+          {% if user.is_authenticated %}
+            <center>	<form method="POST" class="post-form">
+              {% csrf_token %}
+              {{ form }}
+              <button class="w3-button w3-black" type="submit">SUBMIT</button>
+          	</form></center>
           {% endif %}
-          <br>
-          <p><i>{{ comment.comment_time }}</i></p>
-        </div>
-        {% empty %}
-          <br>
-          <br>
-          <br>
-          <center><h3>No comments have been made on this post.</h3></center>
-        {% endfor %}
-      {% endif %}
+        {% endif %}
+      {% empty %}
+        <br>
+        <br>
+        <br>
+        <center><h3>No comments have been made on this post.</h3></center>
+      {% endfor %}
+
 
       <!-- Allow for the comment page to extend this page, so the text field is
       not always visable -->

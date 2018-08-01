@@ -6,3 +6,8 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_text', 'comment_auth']
+
+class CommentAuthForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment_authorized']

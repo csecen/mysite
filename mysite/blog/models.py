@@ -19,4 +19,5 @@ class Comment(models.Model):
     comment_text = models.TextField()
     comment_time = models.DateTimeField(auto_now_add=True)
     comment_auth = models.CharField(max_length=50, blank=True)
+    comment_authorized = models.BooleanField(default=False)
     related_post = models.ForeignKey(Post, on_delete=models.CASCADE)
