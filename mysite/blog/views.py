@@ -23,13 +23,17 @@ def showIndividualPost(request, id):
     post = Post.objects.get(id=id)
     comments = Comment.objects.filter(related_post=id)
 
+
     form = CommentAuthForm(request.POST or None)
-
+    '''
     if form.is_valid():
-        #comment = form.instance
-        form.save()
+        #form.save()
+        #comment = form.save(commit=False)
+        print('\n\n')
+        print(request)
+        print('\n\n')
         return redirect('showIndividualPost', id)
-
+        '''
     return render(request, 'individualPost.html', {'post':post, 'comments':comments, 'form':form})
 
 # Display the contact page. This function just renders the html file holding the
@@ -56,3 +60,15 @@ def addCommentPage(request, id):
         form = CommentForm()
 
     return render(request, 'comment.html', {'post':post, 'form':form})
+
+# Used to update a comments authorized status. If the status is updated to true
+# the comment will be displayed on the related posts page
+def updateComment(request, id):
+    comment = Comment.objects.get(comment_id=id)
+
+    form = CommentAuthForm(request.POST or None)
+
+    if form.is_valid():
+        comment.comment_authorized = True
+        comment.save()
+        return redirect('showIndividualPost', comment.related_post.id)

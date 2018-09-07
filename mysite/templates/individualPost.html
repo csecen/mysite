@@ -25,14 +25,11 @@
       <center><p>{{ post.text|linebreaks|safe }}</p></center>
       <br>
       <div class="w3-row">
-        <div class="w3-col s3 w3-center">
+        <div class="w3-col s4 w3-center">
           <p>Author: {{ post.auth }}</p>
         </div>
-        <div class="w3-col s3 w3-center">
+        <div class="w3-col s4 w3-center">
           <p>Posted: {{ post.time }}</p>
-        </div>
-        <div class="w3-col s3 w3-center">
-          <p>Read time: {{ post.read_time }}</p>
         </div>
         <div class="w3-col s3 w3-center">
           <a href="{% url 'addCommentPage' post.id %}"><p>Leave a Comment</p></a>
@@ -52,9 +49,9 @@
               <p><i>{{ comment.comment_time }}</i></p>
           </div>
           {% if user.is_authenticated %}
-            <center>	<form method="POST" class="post-form">
+            <center>	<form method="POST" class="post-form" action="/commentUpdate/{{ comment.comment_id }}/">
               {% csrf_token %}
-              {{ form }}
+              <h5>Authorize Comment: {{ form.comment_authorized }}</h5>
               <button class="w3-button w3-black" type="submit">SUBMIT</button>
           	</form></center>
           {% endif %}

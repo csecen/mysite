@@ -25,14 +25,11 @@
         <center><p>{{ post.text|safe|linebreaks }}</p></center>
         <br>
         <div class="w3-row">
-          <div class="w3-col s4 w3-center">
-            <p>Author: {{ post.auth }}</p>
+          <div class="w3-col s6 w3-center">
+            <strong><p>Author: {{ post.auth }}</p></strong>
           </div>
-          <div class="w3-col s4 w3-center">
-            <p>Posted: {{ post.time }}</p>
-          </div>
-          <div class="w3-col s4 w3-center">
-            <p>Read time: {{ post.read_time }}</p>
+          <div class="w3-col s6 w3-center">
+            <strong><p>Posted: {{ post.time }}</p></strong>
           </div>
         </div>
         <br>

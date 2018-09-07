@@ -10,12 +10,13 @@ class Post(models.Model):
     auth = models.CharField(max_length=50)
     time = models.DateTimeField(auto_now_add=True)
     cover_image = models.ImageField(upload_to='cover', blank=True)
-    read_time = models.CharField(max_length=15)
+    #read_time = models.CharField(max_length=15)
 
 # Create the comment model. Comment relate to posts. There can be multiple comments per post
 class Comment(models.Model):
 
     # All required fields for a comment on a post
+    comment_id = models.AutoField(primary_key=True)
     comment_text = models.TextField()
     comment_time = models.DateTimeField(auto_now_add=True)
     comment_auth = models.CharField(max_length=50, blank=True)
